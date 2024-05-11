@@ -1,0 +1,38 @@
+/**SELECT 
+    job_title_short AS title,
+    job_location AS location,
+    job_posted_date :: DATE AS date-- if I want just date instead of both the date and timestamp ican just add :: DATE and its done--
+FROM 
+    job_postings_fact
+LIMIT 5000**/
+
+/**SELECT 
+    job_title_short AS title,
+    job_location AS location,
+    job_posted_date AT TIME ZONE 'UTC' AT TIME ZONE 'EST' AS date -- here we are trying to do for the timezone--
+FROM 
+    job_postings_fact
+LIMIT 5;**/
+
+/**SELECT 
+    job_title_short AS title,
+    job_location AS location,
+    job_posted_date AT TIME ZONE 'UTC' AT TIME ZONE 'EST' AS date,
+    EXTRACT (Month FROM job_posted_date) AS date_month, -- here we are trying to extract a field like a month, date or year--
+    EXTRACT (YEAR FROM job_posted_date) AS date_year
+FROM 
+    job_postings_fact
+LIMIT 500;**/
+
+
+SELECT -- in this part of the query first we calculated the number of job per month posted then we became specific to job titiles that are date analyst and finally we orderd by the highest number of job postings and it was jan, feb and march--
+    count(job_id) AS job_posted_count,
+    EXTRACT (MONTH FROM job_posted_date) AS date_month 
+FROM 
+    job_postings_fact
+WHERE 
+    job_title_short = 'Data Analyst' 
+GROUP BY
+    date_month
+ORDER BY 
+    job_posted_count DESC;
