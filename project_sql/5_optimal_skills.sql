@@ -25,4 +25,3 @@ HAVING
 ORDER BY 
     avg_salary DESC,
     demnad_count DESC
-LIMIT 25;
